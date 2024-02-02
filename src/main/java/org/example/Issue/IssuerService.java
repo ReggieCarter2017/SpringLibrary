@@ -1,12 +1,12 @@
-package org.example.service;
+package org.example.Issue;
 
 import lombok.RequiredArgsConstructor;
+import org.example.Book.BookModel;
 import org.springframework.stereotype.Service;
-import org.example.api.IssueRequest;
-import org.example.model.Issue;
-import org.example.repository.BookRepository;
-import org.example.repository.IssueRepository;
-import org.example.repository.ReaderRepository;
+import org.example.Book.BookRepository;
+import org.example.Reader.ReaderRepository;
+
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -17,7 +17,7 @@ public class IssuerService {
   private final ReaderRepository readerRepository;
   private final IssueRepository issueRepository;
 
-  public Issue issue(IssueRequest request) {
+  public IssueModel issue(IssueRequest request) {
     if (bookRepository.getBookById(request.getBookId()) == null) {
       throw new NoSuchElementException("Не найдена книга с идентификатором \"" + request.getBookId() + "\"");
     }
@@ -25,13 +25,25 @@ public class IssuerService {
       throw new NoSuchElementException("Не найден читатель с идентификатором \"" + request.getReaderId() + "\"");
     }
     // можно проверить, что у читателя нет книг на руках (или его лимит не превышает в Х книг)
-    Issue issue = new Issue(request.getBookId(), request.getReaderId());
-    issueRepository.save(issue);
-    return issue;
+    IssueModel issueModel = new IssueModel(request.getBookId(), request.getReaderId());
+    issueRepository.save(issueModel);
+    return issueModel;
   }
 
   public int checkReaderForBorrowedBooks(long id) {
     return issueRepository.readerHasBorrowedBooksCheck(id);
+  }
+
+  public List<IssueModel> getAllIssuesFromService() {
+    return issueRepository.getIssues();
+  }
+
+  public List<IssueModel> getIssuesByReadersIdFromService(long id) {
+    return issueRepository.getListOfIssuesByReadersId(id);
+  }
+
+  public List<BookModel> getAllBooksByReadersId(long id) {
+    return issueRepository.getBookIdsByReadersId(id);
   }
 
 }

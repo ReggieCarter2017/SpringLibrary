@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+</head>
+<body>
+<h1>Issue Table</h1>
+
+<p th:text="${'Reader ID: ' + readerModel.getId()}">VALUE</p>
+<p th:text="${'Name: ' + readerModel.getName()}">VALUE</p>
+
+<table>
+    <tr>
+        <th>Book id</th>
+        <th>Book name</th>
+    </tr>
+    <tr th:each="bookModel: ${readersbooks}">
+        <td th:text="${bookModel.getId()}"></td>
+        <td th:text="${bookModel.getName()}"></td>
+
+    </tr>
+</table>
+</body>
+</html>

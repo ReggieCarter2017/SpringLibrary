@@ -1,10 +1,8 @@
-package org.example.api;
+package org.example.Reader;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.model.Issue;
-import org.example.model.Reader;
-import org.example.repository.IssueRepository;
-import org.example.repository.ReaderRepository;
+import org.example.Issue.IssueModel;
+import org.example.Issue.IssueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +17,7 @@ public class ReaderController {
     @Autowired
     private IssueRepository issueRepository;
     @GetMapping("/{id}")
-    public Reader showReaderById(@PathVariable long id){
+    public ReaderModel showReaderById(@PathVariable long id){
         return readerRepository.getReaderById(id);
     }
 
@@ -36,7 +34,7 @@ public class ReaderController {
     }
 
     @GetMapping("/{id}/issues")
-    public List<Issue> showHisIssues(@PathVariable long id) {
+    public List<IssueModel> showHisIssues(@PathVariable long id) {
         return issueRepository.getListOfIssuesByReadersId(id);
     }
 }

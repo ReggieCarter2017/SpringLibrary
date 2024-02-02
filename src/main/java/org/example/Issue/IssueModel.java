@@ -1,10 +1,9 @@
-package org.example.model;
+package org.example.Issue;
 
 import java.time.LocalDateTime;
-import lombok.Data;
 
 
-public class Issue {
+public class IssueModel {
   public static long sequence = 1L;
   private final long id;
   private final long bookId;
@@ -36,7 +35,7 @@ public class Issue {
     this.returnedAt = LocalDateTime.now();
   }
 
-  public Issue(long bookId, long readerId) {
+  public IssueModel(long bookId, long readerId) {
     this.id = sequence++;
     this.bookId = bookId;
     this.readerId = readerId;

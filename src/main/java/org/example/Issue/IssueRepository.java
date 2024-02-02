@@ -1,9 +1,9 @@
-package org.example.repository;
+package org.example.Issue;
 
-import org.example.model.Book;
+import org.example.Book.BookModel;
+import org.example.Book.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.example.model.Issue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,18 +11,18 @@ import java.util.Objects;
 
 @Repository
 public class IssueRepository {
-  private List<Issue> issues;
+  private List<IssueModel> issues;
   @Autowired
   private BookRepository bookRepository;
   public IssueRepository() {
     this.issues = new ArrayList<>();
   }
 
-  public void save(Issue issue) {
-    issues.add(issue);
+  public void save(IssueModel issueModel) {
+    issues.add(issueModel);
   }
 
-  public Issue getIssueById(long id) {
+  public IssueModel getIssueById(long id) {
     return issues.stream().filter(it -> Objects.equals(it.getId(), id)).findFirst().orElse(null);
   }
 
@@ -36,7 +36,7 @@ public class IssueRepository {
     }
   }
 
-  public List<Issue> getListOfIssuesByReadersId(long id) {
+  public List<IssueModel> getListOfIssuesByReadersId(long id) {
     return issues.stream().filter(it -> Objects.equals(id, it.getReaderId())).toList();
   }
 
@@ -44,7 +44,12 @@ public class IssueRepository {
     issues.stream().filter(it -> Objects.equals(id, it.getId())).forEach(it -> it.setReturnedAt());
   }
 
-  public List<Issue> getIssues() {
+  public List<IssueModel> getIssues() {
     return issues;
+  }
+
+  public List<BookModel> getBookIdsByReadersId(long id) {
+    return issues.stream().filter(it -> Objects.equals(it.getReaderId(), id))
+            .map(it -> bookRepository.getBookById(it.getBookId())).toList();
   }
 }

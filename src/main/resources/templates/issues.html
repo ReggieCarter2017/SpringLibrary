@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+</head>
+<body>
+<h1>Issue Table</h1>
+<table>
+    <tr>
+        <th>id</th>
+        <th>Reader id</th>
+        <th>Book id</th>
+        <th>Issued at</th>
+        <th>Returned at</th>
+    </tr>
+    <tr th:each="issueModel: ${issues}">
+        <td th:text="${issueModel.getId()}"></td>
+        <td th:text="${issueModel.getReaderId()}"></td>
+        <td th:text="${issueModel.getBookId()}"></td>
+        <td th:text="${issueModel.getIssuedAt()}"></td>
+        <td th:text="${issueModel.getReturnedAt()}"></td>
+    </tr>
+</table>
+</body>
+</html>
