@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/first_db
+    username: postgres
+    password: zcfvgfhjkm123
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true

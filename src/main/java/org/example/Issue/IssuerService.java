@@ -1,49 +1,48 @@
 package org.example.Issue;
 
 import lombok.RequiredArgsConstructor;
-import org.example.Book.BookModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.example.Book.BookRepository;
-import org.example.Reader.ReaderRepository;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
 public class IssuerService {
+  @Autowired
+  private IssueRepo itemRepo;
 
-  private final BookRepository bookRepository;
-  private final ReaderRepository readerRepository;
-  private final IssueRepository issueRepository;
-
-  public IssueModel issue(IssueRequest request) {
-    if (bookRepository.getBookById(request.getBookId()) == null) {
-      throw new NoSuchElementException("Не найдена книга с идентификатором \"" + request.getBookId() + "\"");
-    }
-    if (readerRepository.getReaderById(request.getReaderId()) == null) {
-      throw new NoSuchElementException("Не найден читатель с идентификатором \"" + request.getReaderId() + "\"");
-    }
-    // можно проверить, что у читателя нет книг на руках (или его лимит не превышает в Х книг)
-    IssueModel issueModel = new IssueModel(request.getBookId(), request.getReaderId());
-    issueRepository.save(issueModel);
+  public IssueModel issueBook(IssueRequest issueRequest) {
+    IssueModel issueModel = new IssueModel(issueRequest.getBookId(), issueRequest.getReaderId());
+    itemRepo.save(issueModel);
     return issueModel;
   }
 
-  public int checkReaderForBorrowedBooks(long id) {
-    return issueRepository.readerHasBorrowedBooksCheck(id);
+  public IssueModel getIssueByIdFromService(Long id) {
+
+      IssueModel issueModel = null;
+      if (null != (issueModel = itemRepo.findById(id).get())) return issueModel;
+      else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NOT FOUND");
   }
 
   public List<IssueModel> getAllIssuesFromService() {
-    return issueRepository.getIssues();
+      return itemRepo.findAll();
+  }
+
+  public IssueModel returnIssueByIdFromService(Long id) {
+      IssueModel issueModel = null;
+      if (id != null && ((issueModel = itemRepo.findById(id).get()) != null)){
+          issueModel.setReturnedAt(LocalDateTime.now());
+          return issueModel;
+      }
+      else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NOT FOUND");
   }
 
   public List<IssueModel> getIssuesByReadersIdFromService(long id) {
-    return issueRepository.getListOfIssuesByReadersId(id);
-  }
-
-  public List<BookModel> getAllBooksByReadersId(long id) {
-    return issueRepository.getBookIdsByReadersId(id);
+      return itemRepo.findAllByReaderId(id);
   }
 
 }

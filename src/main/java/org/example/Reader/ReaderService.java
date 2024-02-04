@@ -1,28 +1,45 @@
 package org.example.Reader;
 
 import lombok.RequiredArgsConstructor;
-import org.example.Book.BookModel;
-import org.example.Book.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ReaderService {
     @Autowired
-    private ReaderRepository readerRepository;
-    @Autowired
-    private BookRepository bookRepository;
+    private ReaderRepo readerRepo;
     public List<ReaderModel> getAllReadersFromService() {
-        return readerRepository.getAllReaderModels();
+        return readerRepo.findAll();
     }
-    public ReaderModel getReaderByIdFromService(long id) {
-        return readerRepository.getReaderById(id);
+    public ReaderModel getReaderByIdFromService(Long id) {
+        Optional<ReaderModel> x;
+        if ((x = readerRepo.findById(id)) != null) {
+            return x.get();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The reader not found");
+        }
     }
 
+    public void addReaderModel(String name) {
+        readerRepo.save(new ReaderModel(name));
+    }
 
+    public void deleteReaderModel(Long id) {
+        readerRepo.deleteById(id);
+    }
 
+    public ReaderModel findById(Long id) {
+        Optional<ReaderModel> x = null;
+        if ((x = readerRepo.findById(id)) != null) {
+            return x.get();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NOT FOUND");
+        }
+    }
 
 }

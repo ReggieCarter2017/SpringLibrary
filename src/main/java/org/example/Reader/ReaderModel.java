@@ -1,16 +1,23 @@
 package org.example.Reader;
 
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
+@Entity
+@Table(name = "readers")
+@NoArgsConstructor
 public class ReaderModel {
-  public static long sequence = 1L;
-  private final long id;
-  private final String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private long id;
+
+  @Column(name = "name")
+  private String name;
   public ReaderModel(String name) {
-    this(sequence++, name);
+    this.name = name;
   }
 
 }

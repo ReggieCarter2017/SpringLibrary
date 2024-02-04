@@ -1,16 +1,24 @@
 package org.example.Book;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Data
-@RequiredArgsConstructor
+@Entity
+@Table(name = "books")
+@NoArgsConstructor
 public class BookModel {
-  public static long sequence = 1L;
-  private final long id;
-  private final String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private Long id;
+  @Column(name = "name")
+  private String name;
+
   public BookModel(String name) {
-    this(sequence++, name);
+    this.name = name;
   }
+
+
 
 }

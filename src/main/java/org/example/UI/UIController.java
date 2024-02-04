@@ -1,6 +1,6 @@
 package org.example.UI;
 
-import org.example.Issue.IssuerService;
+import org.example.Issue.IssueRepo;
 import org.example.Reader.ReaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,12 +15,10 @@ import org.example.Book.BookService;
 public class UIController {
     @Autowired
     private BookService bookService;
-
     @Autowired
     private ReaderService readerService;
-
     @Autowired
-    private IssuerService issuerService;
+    private IssueRepo issuerService;
 
     @GetMapping("/books")
     public String books(Model model) {
@@ -36,14 +34,14 @@ public class UIController {
 
     @GetMapping("/issues")
     public String issues(Model model) {
-        model.addAttribute("issues", issuerService.getAllIssuesFromService());
+        model.addAttribute("issues", issuerService.findAll());
         return "issues";
     }
 
     @GetMapping("/readers/{id}")
     public String readersBooks(@PathVariable long id, Model model) {
         model.addAttribute("readerModel", readerService.getReaderByIdFromService(id));
-        model.addAttribute("readersbooks", issuerService.getAllBooksByReadersId(id));
+        model.addAttribute("readersbooks", issuerService.findAllByReaderId(id));
         return "readerissues";
     }
 }

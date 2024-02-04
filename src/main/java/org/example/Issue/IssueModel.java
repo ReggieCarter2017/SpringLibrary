@@ -1,42 +1,35 @@
 package org.example.Issue;
 
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
-
+@Entity
+@Table(name = "issues")
+@Data
+@NoArgsConstructor
 public class IssueModel {
-  public static long sequence = 1L;
-  private final long id;
-  private final long bookId;
-  private final long readerId;
-  private final LocalDateTime issuedAt;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private Long id;
+  @Column(name = "bookId")
+  private Long bookId;
+  @Column(name = "readerId")
+  private Long readerId;
+  @Column(name = "issuedAt")
+  private LocalDateTime issuedAt;
+  @Column(name = "returnedAt")
   private LocalDateTime returnedAt;
 
-  public long getId() {
-    return id;
-  }
-
-  public long getBookId() {
-    return bookId;
-  }
-
-  public long getReaderId() {
-    return readerId;
-  }
-
-  public LocalDateTime getIssuedAt() {
-    return issuedAt;
-  }
-
-  public LocalDateTime getReturnedAt() {
-    return returnedAt;
-  }
 
   public void setReturnedAt() {
     this.returnedAt = LocalDateTime.now();
   }
 
   public IssueModel(long bookId, long readerId) {
-    this.id = sequence++;
     this.bookId = bookId;
     this.readerId = readerId;
     this.issuedAt = LocalDateTime.now();
