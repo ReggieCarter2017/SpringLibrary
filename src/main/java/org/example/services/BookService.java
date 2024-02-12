@@ -1,6 +1,8 @@
-package org.example.Book;
+package org.example.services;
 
 import lombok.RequiredArgsConstructor;
+import org.example.models.BookModel;
+import org.example.repos.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package org.example.Issue;
+package org.example.models;
 
 import jakarta.persistence.*;
 import lombok.Data;

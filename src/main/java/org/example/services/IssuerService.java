@@ -1,6 +1,9 @@
-package org.example.Issue;
+package org.example.services;
 
 import lombok.RequiredArgsConstructor;
+import org.example.models.IssueRequest;
+import org.example.models.IssueModel;
+import org.example.repos.IssueRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
