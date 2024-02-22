@@ -20,12 +20,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 
 @Component
-@EnableWebSecurity
-@EnableMethodSecurity(
-        prePostEnabled = true,
-        securedEnabled = true,
-        jsr250Enabled = true)
-@RequiredArgsConstructor
+
 public class SecurityConfiguration {
 
     @Autowired
@@ -53,6 +48,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(configurer -> configurer
                         .requestMatchers("/ui/**").authenticated()
                         .requestMatchers("/ui/issues/**").hasAuthority("ROLE_ADMIN")

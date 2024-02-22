@@ -27,8 +27,10 @@ public class ReaderService {
         }
     }
 
-    public void addReaderModel(String name) {
-        readerRepo.save(new ReaderModel(name));
+    public ReaderModel addReaderModel(String name) {
+        ReaderModel readerModel = new ReaderModel(name);
+        readerRepo.save(readerModel);
+        return readerModel;
     }
 
     public void deleteReaderModel(Long id) {

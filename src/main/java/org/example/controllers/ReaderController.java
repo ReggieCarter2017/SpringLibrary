@@ -32,8 +32,7 @@ public class ReaderController {
     @PostMapping
     @Operation(summary = "create a reader", description = "Создание читателя для библиотеки")
     public ResponseEntity<?> addReader(@RequestBody String name) {
-        readerService.addReaderModel(name);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(readerService.addReaderModel(name), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

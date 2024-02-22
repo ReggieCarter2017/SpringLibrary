@@ -2,13 +2,10 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/first_db
     username: postgres
-    password:
+    password: zcfvgfhjkm123
   jpa:
     hibernate:
       ddl-auto: create
     show-sql: true
-
-
 server:
-  port: 8080
-
+  port: 8087
